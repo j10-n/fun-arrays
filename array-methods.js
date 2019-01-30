@@ -1,14 +1,23 @@
 var dataset = require('./dataset.json');
-
+const bankBalances = dataset.bankBalances;
 /*
   create an array with accounts from bankBalances that are
   greater than 100000
   assign the resulting new array to `hundredThousandairs`
 */
-var hundredThousandairs = null;
+
+const hundredThousandairs = bankBalances.filter((item) => {
+  return item.amount > 100000;
+});
+
 
 // set sumOfBankBalances to be the sum of all value held at `amount` for each bank object
-var sumOfBankBalances = null;
+const intArr = bankBalances.map((item) => {
+  return parseInt(item.amount);
+})
+const sumOfBankBalances = intArr.reduce((prev, curr) => {
+  return prev + curr;
+});
 
 /*
   from each of the following states:
@@ -21,7 +30,13 @@ var sumOfBankBalances = null;
   take each `amount` and add 18.9% interest to it rounded to the nearest dollar 
   and then sum it all up into one value saved to `sumOfInterests`
  */
-var sumOfInterests = null;
+const states = ['WI', 'IL', 'WY', 'OH', 'GA', 'DE'];
+let sumOfInterests = bankBalances.filter(i => {
+  return states.includes(i.state);
+}).reduce((total, next) => {
+  return total + Math.round(parseInt(next.amount) * 0.189)
+}, 0);
+
 
 /*
   aggregate the sum of bankBalance amounts
@@ -39,7 +54,8 @@ var sumOfInterests = null;
     round this number to the nearest dollar before moving on.
   )
  */
-var stateSums = null;
+let stateSums = {};
+// 2 map functions
 
 /*
   for all states *NOT* in the following states:
